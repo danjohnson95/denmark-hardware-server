@@ -20,6 +20,7 @@ class RelayController extends Controller
         match ($state) {
             'on' => $pin->turnOn(),
             'off' => $pin->turnOff(),
+            'toggle' => $pin->isOn() ? $pin->turnOff() : $pin->turnOn(),
             default => abort(400, 'Invalid state'),
         };
     }
