@@ -8,12 +8,11 @@ class RelayController extends Controller
 {
     public function __invoke(int $relayNumber, string $state)
     {
-        dump("Relay {$relayNumber} set to {$state}");
-
-        // Relay 1 is on pin 26, Relay 2 is on pin 19
+        // Relay 1 is on pin 26, Relay 2 is on pin 19, Relay 3 is on pin 6.
         $pin = match ($relayNumber) {
             1 => PinService::pin(26),
             2 => PinService::pin(19),
+            3 => PinService::pin(6),
             default => abort(404, 'Relay not found'),
         };
 
@@ -23,5 +22,7 @@ class RelayController extends Controller
             'toggle' => $pin->isOn() ? $pin->turnOff() : $pin->turnOn(),
             default => abort(400, 'Invalid state'),
         };
+
+        return response()->json(['message' => "Relay {$relayNumber} is now {$state}"]);
     }
 }
